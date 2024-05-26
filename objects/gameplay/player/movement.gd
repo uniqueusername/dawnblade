@@ -24,7 +24,7 @@ var jump_speed: float = 300 # calculated from height
 	set(value):
 		jump_height = value
 		jump_speed = _calculate_jump(value)
-@export var sticky_distance: float = 20: # how close to the ground we can jump
+@export var sticky_distance: float = 5: # how close to the ground we can jump
 	set(value):
 		sticky_distance = value
 		if ground_ray: ground_ray.target_position.y = value
@@ -41,11 +41,6 @@ func _ready():
 	animated = sprite != null
 	jump_speed = _calculate_jump(jump_height)
 	ground_ray.target_position = Vector2(0, sticky_distance)
-
-# runs every frame
-func _process(delta):
-	# collect inputs (check Project Settings -> Input Map). expects legal inputs!
-	input_dir.x = input_collector.get_move_power()
 
 # runs every physics frame (60 times per second)
 func _physics_process(delta):
@@ -91,6 +86,7 @@ func update_velocities(dir: Vector2, jump: bool, delta: float):
 	## jump !
 	if jump and coyote_timer > 0:
 		p.velocity.y = -jump_speed
+		jump_just_pressed = false
 		coyote_timer = 0
 
 # calculate jump velocity based on desired jump height
