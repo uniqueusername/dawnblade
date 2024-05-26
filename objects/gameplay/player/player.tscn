@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://djw71ie8wroqe"]
+[gd_scene load_steps=22 format=3 uid="uid://djw71ie8wroqe"]
 
 [ext_resource type="Script" path="res://objects/gameplay/player/player.gd" id="1_cyoaf"]
 [ext_resource type="Texture2D" uid="uid://dawxfm4v5g37x" path="res://assets/sprites/player/player_idle.png" id="2_04sks"]
@@ -6,8 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://beapxp4qm050a" path="res://assets/sprites/player/player_run.png" id="4_if5yt"]
 [ext_resource type="Script" path="res://objects/gameplay/player/movement.gd" id="5_lrip1"]
 [ext_resource type="Script" path="res://objects/gameplay/player/input_collector.gd" id="5_usvpp"]
-[ext_resource type="Texture2D" uid="uid://u3khnoy2bjk" path="res://icon.svg" id="7_a08hs"]
 [ext_resource type="Script" path="res://objects/gameplay/player/hook.gd" id="7_d6q0m"]
+[ext_resource type="Texture2D" uid="uid://d1w1lriy5cxo5" path="res://assets/sprites/player/grappling_hook/target.png" id="8_5rpek"]
+[ext_resource type="Texture2D" uid="uid://g3h7jvrkag6s" path="res://assets/sprites/player/grappling_hook/reticle.png" id="8_7tjho"]
+[ext_resource type="Texture2D" uid="uid://f4elybu4alg1" path="res://assets/sprites/player/grappling_hook/chain.png" id="8_komv4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bf01k"]
 atlas = ExtResource("3_2i24a")
@@ -128,13 +130,31 @@ max_results = 1
 [node name="grapple" type="Node2D" parent="."]
 script = ExtResource("7_d6q0m")
 
-[node name="hook" type="Sprite2D" parent="grapple"]
+[node name="hook" type="Node2D" parent="grapple"]
 top_level = true
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("7_a08hs")
+
+[node name="chain" type="Sprite2D" parent="grapple/hook"]
+texture = ExtResource("8_komv4")
+region_enabled = true
+region_rect = Rect2(2.08165e-12, 2.08165e-12, 2, 2.08165e-12)
 
 [node name="RayCast2D" type="RayCast2D" parent="grapple"]
 target_position = Vector2(2.08165e-12, 1000)
+
+[node name="target" type="Sprite2D" parent="grapple/RayCast2D"]
+z_index = -1
+scale = Vector2(2, 1)
+texture = ExtResource("8_5rpek")
+offset = Vector2(2.08165e-12, 275)
+region_enabled = true
+region_rect = Rect2(2.08165e-12, 2.08165e-12, 4, 400)
+
+[node name="reticle" type="Sprite2D" parent="grapple/RayCast2D"]
+position = Vector2(2.08165e-12, 500)
+rotation = 3.14159
+scale = Vector2(2, 2)
+texture = ExtResource("8_7tjho")
+offset = Vector2(2.08165e-12, 8)
 
 [connection signal="new_inputs" from="input_collector" to="movement" method="_on_new_inputs"]
 [connection signal="new_inputs" from="input_collector" to="grapple" method="_on_new_inputs"]
