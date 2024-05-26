@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var PULL_STRENGTH: float = 1.0
+@export var PULL_STRENGTH: float = 25.0
 
 var hooked: bool = false
 

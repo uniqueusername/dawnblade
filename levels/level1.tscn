@@ -7,6 +7,8 @@
 resource_name = "level1"
 script/source = "extends Node2D
 
+@onready var player_start: Vector2 = $player.global_position
+
 func _input(event):
 	if event.is_action_pressed(\"reset\"):
 		_reset()
@@ -16,7 +18,8 @@ func _input(event):
 
 # resets the level
 func _reset():
-	get_tree().change_scene_to_file(\"res://levels/level1.tscn\")
+	$player.cancel_movement()
+	$player.global_position = player_start
 "
 
 [node name="level1" type="Node2D"]

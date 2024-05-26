@@ -127,7 +127,6 @@ max_results = 1
 
 [node name="grapple" type="Node2D" parent="."]
 script = ExtResource("7_d6q0m")
-PULL_STRENGTH = 25.0
 
 [node name="hook" type="Sprite2D" parent="grapple"]
 top_level = true
