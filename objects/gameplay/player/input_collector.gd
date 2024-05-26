@@ -17,6 +17,8 @@ func _input(event):
 	# send single-frame inputs (e.g. jump)
 	var inputs = []
 	if Input.is_action_just_pressed("jump"): inputs.append("jump")
+	if Input.is_action_just_pressed("grapple"): inputs.append("grapple")
+	elif Input.is_action_just_released("grapple"): inputs.append("ungrapple")
 	new_inputs.emit(inputs)
 
 func get_move_power() -> float:
