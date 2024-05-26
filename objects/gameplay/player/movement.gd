@@ -4,7 +4,7 @@ extends Node2D
 @onready var p: CharacterBody2D = get_parent() # reference to player node
 @onready var ground_ray: ShapeCast2D = $ground_ray # ground detection ray
 @export var sprite: AnimatedSprite2D # sprite to animate (optional)
-@export var input_collector: Node # component to source inputs from
+@export var input_collector: Node2D # component to source inputs from
 var animated: bool = false # configured automatically based on `sprite`
 
 # input variables
@@ -105,8 +105,8 @@ func _animate(x_input: float, on_floor: bool, sprite: AnimatedSprite2D):
 	if !on_floor: sprite.play("jump")
 
 func _on_new_inputs(inputs):
-	jump_just_pressed = "jump" in inputs 
 	input_dir.x = input_collector.get_move_power()
+	jump_just_pressed = "jump" in inputs 
 
 # call this to make the player stop moving
 # (until they provide another input)

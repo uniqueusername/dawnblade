@@ -1,5 +1,6 @@
 extends Node2D
 
+@export var input_collector: Node2D
 @export var PULL_STRENGTH: float = 25.0
 @export var RANGE: float = 750.0:
 	set(value):
@@ -7,18 +8,17 @@ extends Node2D
 		_config_range(RANGE)
 
 var hooked: bool = false
+var target_dir: Vector2 = Vector2.ZERO
 
 func _ready():
 	_config_range(RANGE)
 
 func _physics_process(delta):
 	if hooked:
-		var target_dir: Vector2 = ($hook.position - get_parent().global_position).normalized()
 		get_parent().velocity += target_dir * PULL_STRENGTH
 
 func _process(delta):
-	look_at(get_global_mouse_position())
-	rotation -= PI/2
+	rotation = target_dir.angle() - PI/2
 	
 	if hooked:
 		var chain_length: float = get_parent().global_position.distance_to($hook.position)
@@ -48,5 +48,6 @@ func _config_range(range: float):
 	$RayCast2D/reticle.position.y = range
 
 func _on_new_inputs(inputs):
+	target_dir = input_collector.get_aim()
 	if "grapple" in inputs: _shoot_hook()
 	elif "ungrapple" in inputs: _release_hook()
