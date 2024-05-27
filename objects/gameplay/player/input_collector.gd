@@ -12,16 +12,21 @@ var mnk: bool = true
 var move_power: float = 0.0 # horizontal movement input
 var aim_dir: Vector2 = Vector2.ZERO
 
+func _process(delta):
+	pass
+	if mnk:
+		aim_dir = get_local_mouse_position().normalized()
+		new_inputs.emit([])
+
 func _input(event):
 	# detect controller
-	mnk = not event is InputEventJoypadMotion 
+	mnk = not (event is InputEventJoypadMotion or event is InputEventJoypadButton)
 
 	# store movement axis
 	move_power = clamp(Input.get_axis("left", "right"), -1.0, 1.0)
 	
 	# store aim vector
-	if mnk: aim_dir = get_local_mouse_position().normalized()
-	else:
+	if not mnk:
 		var temp_dir: Vector2 = Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
 		if temp_dir != Vector2.ZERO: aim_dir = temp_dir
 	
